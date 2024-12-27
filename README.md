@@ -37,8 +37,8 @@ pip install 'tutor[full]>=11.0.0,<12.0.0'
 ### Tutor Installation
 
 #### Requirements
--   [Docker](https://docs.docker.com/engine/install/ubuntu/): v18.06.0+
--   [Docker Compose](https://docs.docker.com/compose/install/): v1.22.0+
+-   [Docker](https://docs.docker.com/engine/install/ubuntu/): v24.0.5+ (with BuildKit 0.11+)
+-   [Docker Compose](https://docs.docker.com/compose/install/): v2.0.0+
 - Ports 80 and 443 should be open
 - Hardware:
   -   Minimum configuration: 4 GB RAM, 2 CPU, 8 GB disk space
@@ -47,16 +47,34 @@ pip install 'tutor[full]>=11.0.0,<12.0.0'
   ```
   sudo apt install python3 python3-pip libyaml-dev
   ```
+#### Docker and Docker compose installation
+```
+sudo apt-get update
+sudo apt-get install -y     apt-transport-https     ca-certificates     curl     gnupg-agent     software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo gpasswd -a $USER docker
+sudo usermod -a -G docker $USER
+sudo -H -u root bash << EOF
+# test Docker installation
+docker run hello-world
+EOF
+```
 
 #### Installation
 There are 2 ways to install Tutor:
 1. Install with pip:
     ```
-    pip install "tutor[full]==v13.3.0"
+    pip install "tutor[full]"
     ```
     Or download the pre-compiled binary and place the `tutor` executable in your path:
     ```
-    sudo curl -L "https://github.com/overhangio/tutor/releases/download/v13.3.0/tutor-$(uname -s)_$(uname -m)" -o /usr/local/bin/tutor
+    sudo curl -L "https://github.com/overhangio/tutor/releases/download/v19.0.0/tutor-$(uname -s)_$(uname -m)" -o /usr/local/bin/tutor
     sudo chmod 0755 /usr/local/bin/tutor
     ```
 2. Run `tutor local quickstart`
