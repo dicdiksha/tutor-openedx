@@ -115,6 +115,36 @@ There are 2 ways to install Tutor:
     ```
     tutor local importdemocourse
     ```
+
+- #### Enable xqueue and forum plugins
+    ```
+    tutor local stop
+    tutor plugins enable xqueue
+    tutor plugins enable forum
+    tutor local start -d
+    ```
+
+- #### Enable xblock-poll  plugin
+    ```  
+    tutor local stop
+    tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/xblock-poll.git
+    tutor images build opened
+    tutor local start -d
+    ```    
+
+- ####  User creation
+    ```  
+    tutor local do createuser --staff --superuser prasaths prasath.sivasubramaniyan@trigyn.com
+    tutor local do createuser --staff --superuser sivac sivachidambaram.dhanushkodi@trigyn.com
+    tutor local do createuser --staff --superuser balak balasaheb.karjule@trigyn.com
+    tutor local do createuser --staff --superuser kirang kiran.gavali@trigyn.com
+    ```  
+- ####  clean up the docker containers and images, run the following command:
+    ```
+    tutor local dc down --remove-orphans
+    ```  
+
+    
 - #### Set theme
     ```
     # For first time only
@@ -234,15 +264,20 @@ There are 2 ways to install Tutor:
     tutor local run --no-deps lms ./manage.py lms shell -c \
       "from django.core.mail import send_mail; send_mail('test subject', 'test message', 'YOURUSERNAME@gmail.com', ['YOURRECIPIENT@domain.com'])"
     ```
-- #### Creating DB dumps
+- #### Creating MYSQL DB Backup
     ```
     tutor local exec \
         -e USERNAME="$(tutor config printvalue MYSQL_ROOT_USERNAME)" \
         -e PASSWORD="$(tutor config printvalue MYSQL_ROOT_PASSWORD)" \
         mysql sh -c 'mysqldump --all-databases --user=$USERNAME --password=$PASSWORD > /var/lib/mysql/dump.sql'
+    ```
+    The `dump.sql`  files will be located in `$(tutor  config  printroot)/data/mysql`
+  
+- #### CreatingMONGO DB dumps
+    ``` 
     tutor local exec mongodb mongodump --out=/data/db/dump.mongodb
     ```
-    The `dump.sql` and `dump.mongodb` files will be located in `$(tutor  config  printroot)/data/mysql` and `$(tutor  config  printroot)/data/mongodb`.
+    The `dump.mongodb` files will be located in  `$(tutor  config  printroot)/data/mongodb`.
 
 - #### Changing Open edX settings (or Creating a Tutor plugin)
     - Create plugins root folder
