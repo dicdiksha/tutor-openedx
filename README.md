@@ -142,6 +142,7 @@ There are 2 ways to install Tutor:
 - ####  clean up the docker containers and images, run the following command:
     ```
     tutor local dc down --remove-orphans
+    sudo rm -rf "$(tutor config printroot)"  #data cleanup
     ```  
 
     
