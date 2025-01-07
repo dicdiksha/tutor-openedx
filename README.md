@@ -128,7 +128,7 @@ There are 2 ways to install Tutor:
     ```  
     tutor local stop
     tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/xblock-poll.git
-    tutor images build opened
+    tutor images build openedx
     tutor local start -d
     ```    
 
@@ -179,23 +179,23 @@ There are 2 ways to install Tutor:
     ```
     # For first time only
     cd $(tutor config printroot)/env/build/openedx/requirements/
-    git clone https://github.com/jramnai/my_package.git
+    git clone https://github.com/dicdiksha/my_package.git
     echo "-e ./my_package" >> "$(tutor config printroot)/env/build/openedx/requirements/private.txt"
-    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/jramnai/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
+    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/openedx/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
     tutor local stop
     tutor local start -d
 
     # If there is some change in `my_package`
     cd $(tutor config printroot)/env/build/openedx/requirements/my_package
     git pull origin main
-    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/jramnai/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
+    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/openedx/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
     tutor local stop
     tutor local start -d
     ```
     or simple
     ```
     echo "git+https://github.com/open-craft/xblock-pdf@b4e404b1f94ffab15c52de5c1382d61235cd8c81#egg=xblock-pdf==1.1.0" >> "$(tutor config printroot)/env/build/openedx/requirements/private.txt"
-    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/jramnai/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
+    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/openedx/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
     tutor local stop
     tutor local start -d
     ```
@@ -213,9 +213,9 @@ There are 2 ways to install Tutor:
     ```
 - #### Create tutor image build
     ```
-    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/jramnai/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
+    tutor images build openedx --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/openedx/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
     or
-    tutor images build openedx --no-cache --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/jramnai/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
+    tutor images build openedx --no-cache --build-arg EDX_PLATFORM_REPOSITORY=https://github.com/openedx/edx-platform.git --build-arg EDX_PLATFORM_VERSION=open-release/maple.master
     ```
 - #### Install and enable plugin
     ```
