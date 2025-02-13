@@ -44,4 +44,4 @@ echo
 echo
 echo "Finished. To continue type:"
 echo "'sudo su - $USER<enter>'"
-echo "'tutor local quickstart'"
+echo "'tutor local launch'"
