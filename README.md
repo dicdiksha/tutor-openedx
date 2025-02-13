@@ -319,6 +319,95 @@ There are 2 ways to install Tutor:
       tutor local restart
       ```
 
+- #### Run Open edX behind the Nginx
+
+  - Setup nginx in ubuntu
+
+    ```  
+    sudo apt-get install nginx -y
+    ```
+  - To set up Open edX with Tutor behind a web proxy and enable HTTPS, follow these steps:
+
+   - Disable the default web proxy: Run the following command to disable the default Caddy web proxy and change its port:
+
+        ```
+        tutor config save --set ENABLE_WEB_PROXY=false --set CADDY_HTTP_PORT=81
+        ```
+    - Create a new folder `ssl` in the path `/etc/nginx/` and add the ssl content in `cert.pem`  `private.key`
+  
+        ```
+        sudo mkdir /etc/nginx/ssl
+        cd /etc/nginx/ssl
+        sudo touch cert.pem private.key
+        ```
+
+        ```
+        cd /etc/nginx/site-available
+        sudo vi ncertx
+        ```
+
+    - Configure your external web proxy: Set up your external web proxy (e.g., Nginx) to forward traffic to the Caddy container. Here is an example configuration for Nginx:
+      
+        ```
+        server {
+            listen 80;
+            server_name  learning.ncert.gov.in studio.learning.ncert.gov.in  apps.learning.ncert.gov.in;
+
+
+            location / {
+                proxy_pass http://127.0.0.1:81;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
+
+        server {
+            listen 443 ssl;
+            server_name  learning.ncert.gov.in studio.learning.ncert.gov.in  apps.learning.ncert.gov.in;
+
+            ssl_certificate /etc/nginx/ssl/cert.pem;
+            ssl_certificate_key /etc/nginx/ssl/private.key;
+
+            location / {
+                proxy_pass http://127.0.0.1:81;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
+
+        ```
+    - To enable your ncertx site configuration in Nginx, you need to create a symbolic link from the sites-available directory to the sites-enabled directory. Here are the steps:
+
+
+        ```
+        sudo ln -s /etc/nginx/sites-available/ncertx /etc/nginx/sites-enabled/
+        ```
+    - Test the Nginx configuration: Ensure there are no syntax errors in your configuration files:    
+        ```
+        sudo nginx -t
+        ```
+    - Reload Nginx: Apply the changes by reloading Nginx:    
+        ```
+        sudo systemctl reload nginx
+        ```
+    - Enable HTTPS in Tutor: Ensure that HTTPS is enabled in Tutor by setting the `ENABLE_HTTPS` flag to `true`:
+    
+        ```
+        cd /home/ncertx_prod_user/.local/share/tutor/env/
+        tutor config save --set ENABLE_HTTPS=true
+        ```
+    - Restart Tutor: Apply the new configuration by restarting Tutor
+        ```  
+        tutor local restart
+        ```
+
 ### References
 - https://github.com/overhangio/tutor/releases
 - https://docs.tutor.overhang.io/
+- https://docs.tutor.edly.io/tutorials/proxy.html
+- https://discuss.openedx.org/t/how-to-reverse-proxy-to-open-edx-sites-deployed-with-tutor-from-another-server/8324/3
+- https://discuss.overhang.io/t/running-tutor-behind-web-proxy-not-working/1572/2
