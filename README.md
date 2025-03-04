@@ -113,7 +113,7 @@ There are 2 ways to install Tutor:
     ```
 - #### Import the demo course
     ```
-    tutor local importdemocourse
+    tutor local do importdemocourse
     ```
 
 - #### Enable xqueue and forum plugins
@@ -128,6 +128,8 @@ There are 2 ways to install Tutor:
     ```  
     tutor local stop
     tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/xblock-poll.git
+    tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/problem-builder.git
+    tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/openedx/xblock-image-explorer.git
     tutor images build openedx
     tutor local start -d
     ```    
@@ -352,6 +354,7 @@ There are 2 ways to install Tutor:
         server {
             listen 80;
             server_name  learning.ncert.gov.in studio.learning.ncert.gov.in  apps.learning.ncert.gov.in;
+            client_max_body_size 900M;
 
 
             location / {
@@ -366,7 +369,7 @@ There are 2 ways to install Tutor:
         server {
             listen 443 ssl;
             server_name  learning.ncert.gov.in studio.learning.ncert.gov.in  apps.learning.ncert.gov.in;
-
+            client_max_body_size 900M;
             ssl_certificate /etc/nginx/ssl/cert.pem;
             ssl_certificate_key /etc/nginx/ssl/private.key;
 
