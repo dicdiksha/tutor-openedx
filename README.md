@@ -407,6 +407,33 @@ There are 2 ways to install Tutor:
         ```  
         tutor local restart
         ```
+## Issues
+
+```
+Error formatting HTML for the problem:
+cannot create LoncapaProblem block-v1:edX+DemoX+Demo_Course+type@problem+block@integral1: Error while
+executing script code: Codejail API Service is unavailable. Please try again in a few minutes.
+```
+
+Above issue highlighted in LMS(Studio)
+
+
+## Solution
+
+https://github.com/eduNEXT/tutor-contrib-codejail
+
+
+Installed Codejail plugin for Tutor
+```
+tutor local stop
+pip install git+https://github.com/edunext/tutor-contrib-codejail
+tutor plugins enable codejail
+tutor config save
+tutor local do init --limit codejail
+```
+
+
+
 
 ### References
 - https://github.com/overhangio/tutor/releases
