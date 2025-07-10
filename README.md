@@ -407,7 +407,10 @@ There are 2 ways to install Tutor:
         ```  
         tutor local restart
         ```
+
 ## Issues
+
+When creating or editing problems in Studio, you may encounter the following error:
 
 ```
 Error formatting HTML for the problem:
@@ -415,23 +418,22 @@ cannot create LoncapaProblem block-v1:edX+DemoX+Demo_Course+type@problem+block@i
 executing script code: Codejail API Service is unavailable. Please try again in a few minutes.
 ```
 
-Above issue highlighted in LMS(Studio)
-
+This issue is highlighted in the LMS (Studio) and indicates that the Codejail API service is not available.
 
 ## Solution
 
-https://github.com/eduNEXT/tutor-contrib-codejail
+To resolve this, install and enable the [tutor-contrib-codejail](https://github.com/eduNEXT/tutor-contrib-codejail) plugin for Tutor:
 
-
-Installed Codejail plugin for Tutor
-```
+```bash
 tutor local stop
 pip install git+https://github.com/edunext/tutor-contrib-codejail
 tutor plugins enable codejail
 tutor config save
 tutor local do init --limit codejail
+tutor local start -d
 ```
 
+After following these steps, the Codejail service should be available and the error should be resolved
 
 
 
