@@ -127,6 +127,7 @@ There are 2 ways to install Tutor:
 - #### Enable xblock-poll  plugin
     ```  
     tutor local stop
+    tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=django-debug-toolbar==4.2.0
     tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/xblock-poll.git
     tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/open-craft/problem-builder.git
     tutor config save --append OPENEDX_EXTRA_PIP_REQUIREMENTS=git+https://github.com/openedx/xblock-image-explorer.git
